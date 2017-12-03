@@ -41,6 +41,10 @@ GameStates.Game.prototype = {
         enemyInterval = 700;
         points = 0;
 
+        if (localStorage.getItem('avoidSquaresHighPoints') === null) {
+            localStorage.setItem('avoidSquaresHighPoints', points)
+        }
+
         //this.stage.backgroundColor = '#6688ee';
         //this.stage.backgroundColor = 'rgb(40,40,240)';
         //this.stage.backgroundColor = 'rgb(255,255,255)';
