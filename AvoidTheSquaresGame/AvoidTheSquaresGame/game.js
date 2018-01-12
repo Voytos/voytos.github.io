@@ -43,9 +43,6 @@ GameStates.Game.prototype = {
 
     create: function () {
 
-        //nickname = document.getElementById("nickname").value;
-        //console.log("nickaname_right: ", nickname);
-
         enemies_count = 50;
         lvl = 1;
         playerVelocity = 700;
@@ -66,27 +63,7 @@ GameStates.Game.prototype = {
             localStorage.setItem('avoidSquaresHighPoints', points);
         }
 
-        //this.stage.backgroundColor = '#6688ee';
-        //this.stage.backgroundColor = 'rgb(40,40,240)';
-        //this.stage.backgroundColor = 'rgb(255,255,255)';
         this.stage.backgroundColor = '#3B3738';
-        
-        //this.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        //this.input.onDown.add(gofull, this);
-
-        //game.physics.setBoundsToWorld();
-        /*
-        var lolol = localStorage.getItem('avoidSquaresHighPoints');
-        console.log(lolol);
-
-        if (localStorage.getItem('avoidSquaresHighPoints') == undefined) {
-            localStorage.setItem('avoidSquaresHighPoints', '0');
-        }
-        //localStorage.setItem('avoidSquaresHighPoints', '0');
-        lolol = localStorage.getItem('avoidSquaresHighPoints');
-        console.log(lolol);
-        console.log(localStorage.getItem('avoidSquaresHighPoints'));
-        */
 
         var textDif2 = this.add.text(this.world.centerX, 110, 'difficulty', { font: "28px Arial", fill: "rgb(100,100,100)", align: "center" });
         textDif2.anchor.setTo(0.5, 0.5);
@@ -116,49 +93,12 @@ GameStates.Game.prototype = {
         textMusic.anchor.setTo(0.5, 0.5);
 
         this.paused = false;
- /*
-        keyPause = this.input.keyboard.addKey(Phaser.Keyboard.ONE);
-       keyPause.onDown.add(function () {
-            if (this.paused == false) {
-                this.paused = true;
-                console.log("P1");
-                console.log(this.paused);
-            }
-            else {
-                this.paused = false;
-                console.log("P2");
-                console.log(this.paused);
-            } 
-        });
 
-        window.onkeydown = function (event) {
-            console.log("ok")
-            if (keyPause.onDown) {
-                console.log("P");
-                console.log(this.paused);
-                this.paused = true;
-                console.log(this.paused);
-            }
-        }
-
-       window.onkeydown = function () {
-           if (this.input.keyboard.event.keyCode == 80) {
-               this.paused = !this.paused;
-           }
-       }
-*/
-    ///    this.helpKey = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
-    ///    this.helpKey.onDown.add(this.startInstructions, this);
-        //keyMute = this.input.keyboard.addKey(Phaser.Keyboard.TWO);
-        //keyMute.onDown.add(addPhaserLogo, this);
-
-        //this.game.input.onDown.add(this.requestLock, this);
-        //this.canvas.addEventListener('mousedown', this.requestLock);
         this.input.addMoveCallback(this.moveMouse, this);
-        //this.input.mouse.mouseOverCallback = this.moveMouse(this);
+
         this.game.input.onDown.add(this.requestLock, this);
-        //this.game.input.onHold.add(this.requestLock, this);
-        
+
+
         this.game.input.mouse.mouseOutCallback = function () { this.paused = true; };
         this.game.input.mouse.mouseOverCallback = function () { this.paused = false; };
 
@@ -167,7 +107,7 @@ GameStates.Game.prototype = {
         enemies = this.add.group();
         enemies.enableBody = true;
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        
+
 
         player = this.game.add.sprite(this.game.width / 2, this.game.height / 2, 'player');
         player.anchor.setTo(0.5, 0.5);
@@ -180,56 +120,30 @@ GameStates.Game.prototype = {
         bgmusic.loop = true;
         bgmusic.play();
 
-        //timer = this.time.create(false);
-        //timer.add(1000, createEnemy);
-        //timer.loop(1000, createEnemy);
-        //timer.start();
-/*
-        for (var i = 0; i < 20; i++)
-        {
-            this.createEnemy(this);
-            //enemy = enemies.create(64 + Math.random() * 872, -64, 'enemy');
-            //this.physics.enable(enemy, Phaser.Physics.ARCADE);
-            //enemy.pendingMove = false;
-            //enemy.body.velocity.y = 200;
-        }
-*/
-        //  POINTS TIMER
- //   timerPoints = this.time.create(false);
- //   timerPoints.loop(enemyInterval, this.updatePoints, this);
- //   timerPoints.start();
 
+        timerLvlUp = this.time.create(false);
+        timerLvlUp.loop(17500, this.updateLvl, this);
+        timerLvlUp.start();
 
-    timerLvlUp = this.time.create(false);
-    timerLvlUp.loop(17500, this.updateLvl, this);
-    timerLvlUp.start();
-        
-    this.startEnemies();
+        this.startEnemies();
 
-    this.muteKey = this.game.input.keyboard.addKey(Phaser.Keyboard.M);
-    this.muteKey.onDown.add(this.muteBgmusic, this);
-
-        //cursors = this.input.keyboard.createCursorKeys();
-        
+        this.muteKey = this.game.input.keyboard.addKey(Phaser.Keyboard.M);
+        this.muteKey.onDown.add(this.muteBgmusic, this);
     },
 
     requestLock: function () {
-    this.game.input.mouse.requestPointerLock();
+        this.game.input.mouse.requestPointerLock();
     },
 
     moveMouse: function (pointer, x, y, click) {
+        if (this.game.input.mouse.locked && !click) {
+            player.x += this.game.input.mouse.event.movementX * 0.5;
+            player.y += this.game.input.mouse.event.movementY * 0.5;
+        }
 
-    //  If the cursor is locked to the game, and the callback was not fired from a 'click' event
-    //  (such as a mouse click or touch down) - as then it might contain incorrect movement values
-    if (this.game.input.mouse.locked && !click)
-    {
-        player.x += this.game.input.mouse.event.movementX*0.5;
-        player.y += this.game.input.mouse.event.movementY*0.5;
-    }
-        
     },
 
-    updatePoints: function(){
+    updatePoints: function () {
         points++;
         textPoints.setText(points);
     },
@@ -253,13 +167,13 @@ GameStates.Game.prototype = {
         textLvl.setText(lvl);
     },
 
-    startEnemies: function(){
+    startEnemies: function () {
         this.time.events.add(enemyInterval, function () {
             this.createEnemy(this);
             this.updatePoints(this);
             this.startEnemies();
-            
-        },this);
+
+        }, this);
     },
 
     muteBgmusic: function () {
@@ -275,7 +189,7 @@ GameStates.Game.prototype = {
             bgmusicText = "press M to mute music";
             textMusic.setText(bgmusicText);
         }
-        
+
     },
 
 
@@ -285,72 +199,18 @@ GameStates.Game.prototype = {
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
         player.angle += 5;
-/*
-        if (cursors.left.isDown) {
-            player.body.velocity.x = -playerVelocity;
-            player.angle -= 5;
-        }
-        else if (cursors.right.isDown) {
-            player.body.velocity.x = playerVelocity;
-            player.angle += 3;
-        }
 
-        if (cursors.up.isDown) {
-            player.body.velocity.y = -playerVelocity;
-            player.angle += 1;
-        }
-        else if (cursors.down.isDown) {
-            player.body.velocity.y = playerVelocity;
-            player.angle -= 3;
-        }
-*/
         enemies.forEach(function (enemy) {
             if (enemy.y > 700) {
                 enemy.kill();
             }
         }
-
-
         );
 
         textHighScore.text = localStorage.getItem("avoidSquaresHighPoints");
 
         this.game.physics.arcade.overlap(player, enemies, this.collisionHandler, null, this);
 
-/*
-        // loop through our 'assets' group
-        enemies.forEach(function (enemy) {
-            // check to see if the enemy is fully outside of the camera and is not currently being repositioned
-            if (enemy.y>500 && !enemy.pendingMove) {
-                // set our 'pendingMove' flag so the object isn't checked again
-                enemy.pendingMove = true;
-                // stop the enemy moving (if using physics)
-                enemy.body.velocity.setTo(0, 0);
-                // create a timer which waits between 10 and 500ms then repositions the enemy randomly within the game world
-                // and resets our 'pendingMove' flag so it can be checked again in the future
-                this.time.events.add(this.rnd.integerInRange(10, 500), function () {
-                    enemy.position.setTo(Math.random() * 1000, 0);
-                    enemy.pendingMove = false;
-                }
-                );
-            }
-        }
-        );
-*/
-       // if(enemies_count<20)
-        //     this.createEnemy(this);
-        /*
-        if (this.physics.arcade.distanceToPointer(player) > 1000)
-        {
-            this.physics.arcade.moveToPointer(player, 1000, 1);
-        }
-        else
-        {
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
-        }
-        */
-        
     },
 
     collisionHandler: function () {
@@ -368,21 +228,15 @@ GameStates.Game.prototype = {
         */
     },
 
-    
-    createEnemy: function () {
 
-        //var enemy = this.add.sprite(this.world.randomX, -64, 'enemy');
+    createEnemy: function () {
         var enemy = enemies.create(Math.random() * 936, -100, 'enemy');
-        enemy.scale.setTo(Math.random()+0.5);
+        enemy.scale.setTo(Math.random() + 0.5);
         this.physics.enable(enemy, Phaser.Physics.ARCADE);
 
-        enemy.body.velocity.y = enemyVelocity+50-Math.random()*100;
-        // enemy.body.collideWorldBounds = false;
+        enemy.body.velocity.y = enemyVelocity + 50 - Math.random() * 100;
         enemy.checkWorldBounds = true;
-        //enemies.events.onOutOfBounds.add(enemyOut, this);
-        //enemy.onOutOfBounds.add(enemyOut, this);
-
-         enemies_count++;
+        enemies_count++;
     },
 
     enemyOut: function (obj) {
@@ -401,7 +255,7 @@ GameStates.Game.prototype = {
 
     },
 
-    gameOver: function(){
+    gameOver: function () {
 
         if (localStorage.getItem('avoidSquaresHighPoints') === null) {
 
@@ -417,7 +271,7 @@ GameStates.Game.prototype = {
             nick: nickname,
             score: points
         }
-        console.log("score/points",playerScore.score,points)
+        console.log("score/points", playerScore.score, points)
         if (localStorage.getItem('allPlayerScores') === null) {
 
             allPlayerScores.push(playerScore);
@@ -427,48 +281,22 @@ GameStates.Game.prototype = {
             allPlayerScores = JSON.parse(localStorage.getItem('allPlayerScores'));
         }
 
-        //if(checkIss(allPlayerScores,))
 
-        //var found = allPlayerScores.some(function (el) {
-        //    return el.nick === nickname;
-        //});
-
-        //if (found) {
-         //   allPlayerScores.push(playerScore);
         objIndex = allPlayerScores.findIndex((obj => obj.nick == nickname));
 
-        if (objIndex === -1)
-        {
+        if (objIndex === -1) {
             allPlayerScores.push(playerScore);
         }
         else {
-            //objIndex = allPlayerScores.findIndex((obj => obj.nick == nickname));
-            //if (allPlayerScores[objIndex].playerScore.score !== undefined) {
             if (allPlayerScores[objIndex].score < points) {
                 allPlayerScores[objIndex].score = points;
             }
-
-       /*             for (var i in allPlayerScores) {
-                        if (allPlayerScores[i].nick == nickname) {
-                            if(allPlayerScores[i].score < points){
-                                allPlayerScores[i].score = points;
-                            }
-
-                            break;
-                        }
-                    } */
-              //  }
-            }
-        
-
-        //}
-
-        
+        }
 
         allPlayerScores.sort(compareScores);
 
         localStorage.setItem('allPlayerScores', JSON.stringify(allPlayerScores));
-        
+
         var highscoresTable = "<table class=table>";
 
         highscoresTable += "<thead class=thead-inverse>";
@@ -505,7 +333,6 @@ GameStates.Game.prototype = {
         highscoresTable += "</table>";
         document.getElementById("table_highscore").innerHTML = highscoresTable;
 
-        //Phaser.Mouse.pointerLock = false;
         bgmusic.destroy();
         this.game.input.mouse.locked = false;
 
@@ -525,7 +352,7 @@ function changeScore(nick, score) {
     for (var i in projects) {
         if (projects[i].value == nick) {
             projects[i].score = score;
-            break; //Stop this loop, we found it!
+            break;
         }
     }
 }

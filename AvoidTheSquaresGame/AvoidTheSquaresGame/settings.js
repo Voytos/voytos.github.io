@@ -127,7 +127,6 @@ GameStates.Settings.prototype = {
         if (volume < 100) {
             console.log("before", volume);
             volume += 10;
-            //tVol2.setText(volume + "%");
             bgmenusound.volume = 0.01 * volume;
             showVol = volume + "%";
             tVol2.setText(showVol);
@@ -139,26 +138,9 @@ GameStates.Settings.prototype = {
         this.state.start('Game');
     },
 
-    startOptions: function () {
-    //this.state.start('Game');
-    },
-
     startMainMenu: function () {
         bgmenusound.destroy();
         this.state.start('MainMenu');
     },
-
-    up: function () {
-        console.log('button up', arguments);
-    },
-
-    over: function () {
-        console.log('button over');
-        //this.b2.alpha = 0.2;
-    },
-
-    out: function () {
-        console.log('button out');
-    }
 
 };

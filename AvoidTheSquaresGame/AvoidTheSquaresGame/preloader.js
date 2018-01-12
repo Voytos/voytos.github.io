@@ -26,12 +26,6 @@ GameStates.Preloader.prototype = {
     },
 
     create: function () {
-
-        //this.stage.backgroundColor = '#3B3738';
-
-        //this.enterKeyy = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-       // this.enterKeyy.onDown.add(this.startMainMenu, this);
-        
         this.state.start('NickMenu');
     },
 

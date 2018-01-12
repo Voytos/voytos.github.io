@@ -27,10 +27,6 @@ GameStates.GameOver.prototype = {
         b1.anchor.setTo(0.5, 0.5);
         b1.scale.setTo(0.7, 0.7);
 
-        //b1.onInputOver.add(this.over, this);
-        //b1.onInputOut.add(this.out, this);
-        //b1.onInputUp.add(this.up, this);
-
         var textB1 = this.add.text(b1.x, b1.y, "RESTART", { font: "32px monospace", fill: "#fff", align: "center" });
         textB1.anchor.setTo(0.5, 0.5);
 
@@ -40,10 +36,6 @@ GameStates.GameOver.prototype = {
         var b2 = this.game.add.button(this.world.centerX, this.world.centerY + 200, 'menuButton', this.startMainMenu, this, 2, 1, 0);
         b2.anchor.setTo(0.5, 0.5);
         b2.scale.setTo(0.7, 0.7);
-
-        //b2.onInputOver.add(this.over, this);
-        //b2.onInputOut.add(this.out, this);
-        //b2.onInputUp.add(this.up, this);
 
         var textB2 = this.add.text(b2.x, b2.y, "MAIN MENU", { font: "32px monospace", fill: "#fff", align: "center" });
         textB2.anchor.setTo(0.5, 0.5);
@@ -59,9 +51,6 @@ GameStates.GameOver.prototype = {
 
         this.backspaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
         this.backspaceKey.onDown.add(this.startMainMenu, this);
-
-        
-
     },
 
     update: function () {
@@ -75,18 +64,5 @@ GameStates.GameOver.prototype = {
     startMainMenu: function () {
         this.state.start('MainMenu');
     },
-
-up: function () {
-    console.log('button up', arguments);
-},
-
-over: function () {
-    console.log('button over');
-    //this.b2.alpha = 0.2;
-},
-
-out: function() {
-    console.log('button out');
-}
 
 };

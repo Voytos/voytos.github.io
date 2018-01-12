@@ -9,8 +9,6 @@ GameStates.Instructions = function (game) {
 
 GameStates.Instructions.prototype = {
     create: function () {
-        // create main menu text and images -
-        // create a "Start Game" mechanism - variety of ways to do this...
 
         this.stage.backgroundColor = '#3B3738';
 
@@ -48,8 +46,6 @@ GameStates.Instructions.prototype = {
         this.backspaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
         this.backspaceKey.onDown.add(this.startMainMenu, this);
 
-        //this.physics.startSystem(Phaser.Physics.ARCADE);
-        //enemy.body.velocity=0;
     },
 
     update: function () {
@@ -57,7 +53,6 @@ GameStates.Instructions.prototype = {
         player.angle += 5;
 
         tStep = Math.sin(counter);
-        //console.log(tStep);
         enemy.body.x = this.world.centerX - 350 + tStep * 60;
         counter += step;
     },
@@ -73,7 +68,6 @@ up: function () {
 
 over: function () {
     console.log('button over');
-    //this.b2.alpha = 0.2;
 },
 
 out: function() {

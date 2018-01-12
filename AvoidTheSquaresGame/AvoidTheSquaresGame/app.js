@@ -13,9 +13,6 @@ window.onload = function () {
 
 
     if (localStorage.getItem('allPlayerScores') === null) {
-
-        //allPlayerScores.push(playerScore);
-        //localStorage.setItem('allPlayerScores', JSON.stringify(allPlayerScores));
     }
     else {
         allPlayerScores = JSON.parse(localStorage.getItem('allPlayerScores'));
