@@ -1,6 +1,9 @@
 ﻿
 var player;
 var bgmusic;
+var bgmusicIsMuted = false;
+var bgmusicText;
+var textMusic;
 var timer;
 var enemies;
 var cursors;
@@ -18,13 +21,18 @@ var timerLvlUp;
 var textPoints;
 var textPoints2;
 var textLvl;
-//var textLvl2;
 var textHighScore;
 
 var keyPause;
 var paused_ = false;
 var keyMute;
 var muted_ = false;
+
+var allPlayerScores = [];
+var objIndex;
+
+var nick;
+var score;
 
 
 GameStates.Game = function (game) {
@@ -34,15 +42,28 @@ GameStates.Game = function (game) {
 GameStates.Game.prototype = {
 
     create: function () {
-        enemies_count = 20;
+
+        //nickname = document.getElementById("nickname").value;
+        //console.log("nickaname_right: ", nickname);
+
+        enemies_count = 50;
         lvl = 1;
         playerVelocity = 700;
-        enemyVelocity = 200;
-        enemyInterval = 700;
         points = 0;
 
+        if (difficulty === 1) {
+            enemyVelocity = 200;
+            enemyInterval = 700;
+        } else if (difficulty === 2) {
+            enemyVelocity = 300;
+            enemyInterval = 500;
+        } else {
+            enemyVelocity = 400;
+            enemyInterval = 300;
+        }
+
         if (localStorage.getItem('avoidSquaresHighPoints') === null) {
-            localStorage.setItem('avoidSquaresHighPoints', points)
+            localStorage.setItem('avoidSquaresHighPoints', points);
         }
 
         //this.stage.backgroundColor = '#6688ee';
@@ -67,23 +88,32 @@ GameStates.Game.prototype = {
         console.log(localStorage.getItem('avoidSquaresHighPoints'));
         */
 
-        var textLvl2 = this.add.text(this.world.centerX, 220, 'level', { font: "32px Arial", fill: "rgb(100,100,100)", align: "center" });
+        var textDif2 = this.add.text(this.world.centerX, 110, 'difficulty', { font: "28px Arial", fill: "rgb(100,100,100)", align: "center" });
+        textDif2.anchor.setTo(0.5, 0.5);
+
+        textDif = this.add.text(this.world.centerX, 150, showDif, { font: "48px Arial", fill: "rgb(100,100,100)", align: "center" });
+        textDif.anchor.setTo(0.5, 0.5);
+
+        var textLvl2 = this.add.text(this.world.centerX, 250, 'level', { font: "32px Arial", fill: "rgb(100,100,100)", align: "center" });
         textLvl2.anchor.setTo(0.5, 0.5);
 
-        textLvl = this.add.text(this.world.centerX, 280, '1', { font: "96px Arial", fill: "rgb(100,100,100)", align: "center" });
+        textLvl = this.add.text(this.world.centerX, 310, '1', { font: "96px Arial", fill: "rgb(100,100,100)", align: "center" });
         textLvl.anchor.setTo(0.5, 0.5);
 
-        textPoints2 = this.add.text(this.world.centerX, 420, 'points', { font: "32px Arial", fill: "rgb(100,100,100)", align: "center" });
+        textPoints2 = this.add.text(this.world.centerX, 400, 'points', { font: "32px Arial", fill: "rgb(100,100,100)", align: "center" });
         textPoints2.anchor.setTo(0.5, 0.5);
 
-        textPoints = this.add.text(this.world.centerX, 480, '0', { font: "96px Arial", fill: "rgb(100,100,100)", align: "center" });
+        textPoints = this.add.text(this.world.centerX, 460, '0', { font: "96px Arial", fill: "rgb(100,100,100)", align: "center" });
         textPoints.anchor.setTo(0.5, 0.5);
 
-        var textHighScore2 = this.add.text(this.world.centerX, 550, 'highscore', { font: "16px Arial", fill: "rgb(100,100,100)", align: "center" });
+        var textHighScore2 = this.add.text(this.world.centerX, 550, 'global highscore', { font: "16px Arial", fill: "rgb(100,100,100)", align: "center" });
         textHighScore2.anchor.setTo(0.5, 0.5);
 
         textHighScore = this.add.text(this.world.centerX, 580, localStorage.getItem("avoidSquaresHighPoints"), { font: "32px Arial", fill: "rgb(100,100,100)", align: "center" });
         textHighScore.anchor.setTo(0.5, 0.5);
+
+        textMusic = this.add.text(this.world.centerX, 680, "press M to mute music", { font: "24px Arial", fill: "rgb(100,100,100)", align: "center" });
+        textMusic.anchor.setTo(0.5, 0.5);
 
         this.paused = false;
  /*
@@ -174,7 +204,10 @@ GameStates.Game.prototype = {
     timerLvlUp.loop(17500, this.updateLvl, this);
     timerLvlUp.start();
         
-        this.startEnemies();
+    this.startEnemies();
+
+    this.muteKey = this.game.input.keyboard.addKey(Phaser.Keyboard.M);
+    this.muteKey.onDown.add(this.muteBgmusic, this);
 
         //cursors = this.input.keyboard.createCursorKeys();
         
@@ -228,6 +261,23 @@ GameStates.Game.prototype = {
             
         },this);
     },
+
+    muteBgmusic: function () {
+        if (!bgmusicIsMuted) {
+            bgmusic.volume = 0;
+            bgmusicIsMuted = true;
+            bgmusicText = "press M to unmute music";
+            textMusic.setText(bgmusicText);
+        }
+        else {
+            bgmusic.volume = 0.5;
+            bgmusicIsMuted = false;
+            bgmusicText = "press M to mute music";
+            textMusic.setText(bgmusicText);
+        }
+        
+    },
+
 
     update: function () {
         this.stage.backgroundColor = '#3B3738';
@@ -357,11 +407,104 @@ GameStates.Game.prototype = {
 
             localStorage.setItem('avoidSquaresHighPoints', points);
 
-    }
+        }
         else if (points > localStorage.getItem('avoidSquaresHighPoints')) {
 
             localStorage.setItem('avoidSquaresHighPoints', points);
         }
+
+        playerScore = {
+            nick: nickname,
+            score: points
+        }
+        console.log("score/points",playerScore.score,points)
+        if (localStorage.getItem('allPlayerScores') === null) {
+
+            allPlayerScores.push(playerScore);
+            localStorage.setItem('allPlayerScores', JSON.stringify(allPlayerScores));
+        }
+        else {
+            allPlayerScores = JSON.parse(localStorage.getItem('allPlayerScores'));
+        }
+
+        //if(checkIss(allPlayerScores,))
+
+        //var found = allPlayerScores.some(function (el) {
+        //    return el.nick === nickname;
+        //});
+
+        //if (found) {
+         //   allPlayerScores.push(playerScore);
+        objIndex = allPlayerScores.findIndex((obj => obj.nick == nickname));
+
+        if (objIndex === -1)
+        {
+            allPlayerScores.push(playerScore);
+        }
+        else {
+            //objIndex = allPlayerScores.findIndex((obj => obj.nick == nickname));
+            //if (allPlayerScores[objIndex].playerScore.score !== undefined) {
+            if (allPlayerScores[objIndex].score < points) {
+                allPlayerScores[objIndex].score = points;
+            }
+
+       /*             for (var i in allPlayerScores) {
+                        if (allPlayerScores[i].nick == nickname) {
+                            if(allPlayerScores[i].score < points){
+                                allPlayerScores[i].score = points;
+                            }
+
+                            break;
+                        }
+                    } */
+              //  }
+            }
+        
+
+        //}
+
+        
+
+        allPlayerScores.sort(compareScores);
+
+        localStorage.setItem('allPlayerScores', JSON.stringify(allPlayerScores));
+        
+        var highscoresTable = "<table class=table>";
+
+        highscoresTable += "<thead class=thead-inverse>";
+        highscoresTable += "<tr>";
+        highscoresTable += "<th>#</th>";
+        highscoresTable += "<th>Nickname</th>";
+        highscoresTable += "<th>Points</th>";
+        highscoresTable += "</tr>";
+        highscoresTable += "</thead>";
+
+        var position = 0;
+        var i = 0;
+        var imax = 10;
+        if (allPlayerScores.length < imax) imax = allPlayerScores.length;
+        while (position < 10) {
+            position++;
+            if (i < imax) {
+                highscoresTable += "<tr>";
+                highscoresTable += "<th scope=row>" + position + "</th>";
+                highscoresTable += "<td>" + allPlayerScores[i].nick + "</td>";
+                highscoresTable += "<td>" + allPlayerScores[i].score + "</td>";
+                highscoresTable += "</tr>";
+            }
+            else {
+                highscoresTable += "<tr>";
+                highscoresTable += "<th scope=row>" + position + "</th>";
+                highscoresTable += "<td>" + "-" + "</td>";
+                highscoresTable += "<td>" + "-" + "</td>";
+                highscoresTable += "</tr>";
+            }
+            i++;
+        }
+
+        highscoresTable += "</table>";
+        document.getElementById("table_highscore").innerHTML = highscoresTable;
+
         //Phaser.Mouse.pointerLock = false;
         bgmusic.destroy();
         this.game.input.mouse.locked = false;
@@ -369,3 +512,20 @@ GameStates.Game.prototype = {
         this.state.start('GameOver');
     }
 };
+
+function compareScores(a, b) {
+    if (a.score > b.score)
+        return -1;
+    if (a.score < b.score)
+        return 1;
+    return 0;
+}
+
+function changeScore(nick, score) {
+    for (var i in projects) {
+        if (projects[i].value == nick) {
+            projects[i].score = score;
+            break; //Stop this loop, we found it!
+        }
+    }
+}

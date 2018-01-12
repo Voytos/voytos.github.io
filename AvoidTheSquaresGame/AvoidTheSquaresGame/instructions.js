@@ -17,19 +17,15 @@ GameStates.Instructions.prototype = {
         this.text1 = this.add.text(this.world.centerX, this.world.centerY-200, "The main goal of the game is to avoid red squares\nand get the most points.\nEvery level increases the number of points obtained,\nthe speed of squares and their number.", { font: "32px monospace", fill: "#fff", align: "center" });
         this.text1.anchor.setTo(0.5, 0.5);
 
-        var b1 = this.game.add.button(this.world.centerX, this.world.centerY + 200, 'menuButton', this.startMainMenu, this, 2, 1, 0);
-        b1.anchor.setTo(0.5, 0.5);
-        b1.scale.setTo(0.7, 0.7);
+        var bBack = this.game.add.button(this.world.centerX, this.world.centerY + 200, 'menuButton', this.startMainMenu, this, 2, 1, 0);
+        bBack.anchor.setTo(0.5, 0.5);
+        bBack.scale.setTo(0.7, 0.7);
 
-        //b1.onInputOver.add(this.over, this);
-        //b1.onInputOut.add(this.out, this);
-        //b1.onInputUp.add(this.up, this);
+        var textBBack = this.add.text(bBack.x, bBack.y, "BACK", { font: "32px monospace", fill: "#fff", align: "center" });
+        textBBack.anchor.setTo(0.5, 0.5);
 
-        var textB1 = this.add.text(b1.x, b1.y, "BACK", { font: "32px monospace", fill: "#fff", align: "center" });
-        textB1.anchor.setTo(0.5, 0.5);
-
-        var textB1_2 = this.add.text(b1.x, b1.y+24, "[ backspace ]", { font: "16px monospace", fill: "#fff", align: "center" });
-        textB1_2.anchor.setTo(0.5, 0.5);
+        var textBBack2 = this.add.text(bBack.x, bBack.y + 24, "[ backspace ]", { font: "16px monospace", fill: "#fff", align: "center" });
+        textBBack2.anchor.setTo(0.5, 0.5);
 
 
         player = this.game.add.sprite(this.world.centerX - 300, this.world.centerY - 50, 'player');

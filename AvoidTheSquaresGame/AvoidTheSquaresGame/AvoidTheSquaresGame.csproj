@@ -26,6 +26,7 @@
     <Content Include="app.js" />
     <Content Include="assets\game_over.mp3" />
     <Content Include="assets\logo.png" />
+    <Content Include="assets\menu_arrow.png" />
     <Content Include="assets\menu_button.png" />
     <Content Include="assets\player.png" />
     <Content Include="assets\POL-chubby-cat-short.wav" />
@@ -38,6 +39,7 @@
     <Content Include="index.html" />
     <Content Include="instructions.js" />
     <Content Include="mainmenu.js" />
+    <Content Include="nickmenu.js" />
     <Content Include="preloader.js" />
     <Content Include="settings.js" />
     <Content Include="web.config" />

@@ -9,5 +9,32 @@ span {
 }
 
 #title {
-    text-align:left
+    text-align: left;
+}
+
+#game_content {
+    float: left;
+    width: auto;
+    height: 700px;
+}
+
+#game {
+    float: left;
+    width: 1000px;
+    height: 700px;
+    
+}
+
+#game_right_column {
+    float: right;
+    width: auto;
+    height: 700px;
+}
+
+#nick {
+
+}
+
+#table_highscore {
+
 }

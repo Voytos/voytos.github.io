@@ -17,6 +17,7 @@ GameStates.Preloader.prototype = {
 
         this.load.image('logo', 'assets/logo.png');
         this.load.image('menuButton', 'assets/menu_button.png');
+        this.load.image('menuArrow', 'assets/menu_arrow.png');
         this.load.image('player', 'assets/player.png');
         this.load.image('enemy', 'assets/redsquare.png');
         this.load.audio('bgmenu', 'assets/POL-smiley-island-short.wav');
@@ -30,8 +31,8 @@ GameStates.Preloader.prototype = {
 
         //this.enterKeyy = this.game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
        // this.enterKeyy.onDown.add(this.startMainMenu, this);
-
-        this.state.start('MainMenu');
+        
+        this.state.start('NickMenu');
     },
 
     startMainMenu: function () {

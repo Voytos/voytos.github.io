@@ -1,12 +1,12 @@
 ﻿
+var playerScore;
+
 GameStates.GameOver = function (game) {
 
 };
 
 GameStates.GameOver.prototype = {
     create: function () {
-        // create main menu text and images -
-        // create a "Start Game" mechanism - variety of ways to do this...
 
         this.stage.backgroundColor = '#3B3738';
 
@@ -59,6 +59,8 @@ GameStates.GameOver.prototype = {
 
         this.backspaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.BACKSPACE);
         this.backspaceKey.onDown.add(this.startMainMenu, this);
+
+        
 
     },
 
