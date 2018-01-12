@@ -10,7 +10,7 @@ GameStates.Preloader.prototype = {
         this.loadingText = this.add.text(this.world.centerX, this.world.centerY + 200, "Loading...", { font: "20px monospace", fill: "#fff", align: "center" });
         this.loadingText.anchor.setTo(0.5, 0.5);
 
-        this.preloadBar = this.add.sprite(this.world.centerX, this.world.centerY+300, 'preloaderBar');
+        this.preloadBar = this.add.sprite(this.world.centerX, this.world.centerY + 300, 'preloaderBar');
         this.preloadBar.anchor.setTo(0.5, 0.5);
         this.preloadBar.scale.setTo(2);
         this.load.setPreloadSprite(this.preloadBar);

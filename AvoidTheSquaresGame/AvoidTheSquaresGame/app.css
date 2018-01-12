@@ -1,7 +1,7 @@
 ﻿body {
     font-family: 'Segoe UI', sans-serif;
-     text-align: center;
-     font-weight: bold;
+    text-align: center;
+    font-weight: bold;
 }
 
 span {
@@ -22,7 +22,6 @@ span {
     float: left;
     width: 1000px;
     height: 700px;
-    
 }
 
 #game_right_column {
@@ -32,9 +31,7 @@ span {
 }
 
 #nick {
-
 }
 
 #table_highscore {
-
 }

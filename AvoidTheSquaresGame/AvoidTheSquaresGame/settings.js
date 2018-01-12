@@ -65,7 +65,7 @@ GameStates.Settings.prototype = {
 
         var textBBack2 = this.add.text(bBack.x, bBack.y + 24, "[ backspace ]", { font: "16px monospace", fill: "#fff", align: "center" });
         textBBack2.anchor.setTo(0.5, 0.5);
-        
+
 
         this.escKey = this.game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         this.escKey.onDown.add(this.startMainMenu, this);
@@ -75,18 +75,15 @@ GameStates.Settings.prototype = {
     },
 
     difficultyToLower: function () {
-        if (difficulty > 1)
-        {
+        if (difficulty > 1) {
             difficulty--;
-            if (difficulty === 1)
-            {
+            if (difficulty === 1) {
                 showDif = "EASY";
             }
-            else
-            {
+            else {
                 showDif = "MEDIUM";
             }
-            tDif2.setText(showDif); 
+            tDif2.setText(showDif);
         }
     },
 
@@ -104,23 +101,20 @@ GameStates.Settings.prototype = {
     },
 
     volumeDown: function () {
-        if (volume > 0)
-        {
-            console.log("before",volume);
+        if (volume > 0) {
+            console.log("before", volume);
             volume -= 10;
-            if (volume === 0)
-            {
+            if (volume === 0) {
                 showVol = "MUTED";
             }
-            else
-            {
+            else {
                 showVol = volume + "%";
             }
             bgmenusound.volume = 0.01 * volume;
             tVol2.setText(showVol);
             console.log("after", volume);
         }
-        
+
     },
 
     volumeUp: function () {

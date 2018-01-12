@@ -7,7 +7,7 @@ GameStates.NickMenu.prototype = {
 
     create: function () {
 
-        
+
         var nickPrompt = prompt("Please enter your nickname:", "");
         if (nickPrompt == null || nickPrompt == "") {
             this.state.start('NickMenu');
@@ -15,7 +15,7 @@ GameStates.NickMenu.prototype = {
             nickname = nickPrompt;
             this.state.start('MainMenu');
         }
-        
+
     },
-    
+
 };

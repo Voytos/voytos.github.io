@@ -12,7 +12,7 @@ GameStates.Instructions.prototype = {
 
         this.stage.backgroundColor = '#3B3738';
 
-        this.text1 = this.add.text(this.world.centerX, this.world.centerY-200, "The main goal of the game is to avoid red squares\nand get the most points.\nEvery level increases the number of points obtained,\nthe speed of squares and their number.", { font: "32px monospace", fill: "#fff", align: "center" });
+        this.text1 = this.add.text(this.world.centerX, this.world.centerY - 200, "The main goal of the game is to avoid red squares\nand get the most points.\nEvery level increases the number of points obtained,\nthe speed of squares and their number.", { font: "32px monospace", fill: "#fff", align: "center" });
         this.text1.anchor.setTo(0.5, 0.5);
 
         var bBack = this.game.add.button(this.world.centerX, this.world.centerY + 200, 'menuButton', this.startMainMenu, this, 2, 1, 0);
@@ -33,7 +33,7 @@ GameStates.Instructions.prototype = {
         this.text2 = this.add.text(this.world.centerX, this.world.centerY - 50, "- it's you, control with mouse", { font: "32px monospace", fill: "#fff", align: "center" });
         this.text2.anchor.setTo(0.5, 0.5);
 
-        enemy = this.game.add.sprite(this.world.centerX - 300, this.world.centerY + 50 , 'enemy');
+        enemy = this.game.add.sprite(this.world.centerX - 300, this.world.centerY + 50, 'enemy');
         enemy.anchor.setTo(0.5, 0.5);
         this.physics.enable(enemy, Phaser.Physics.ARCADE);
 
@@ -62,16 +62,16 @@ GameStates.Instructions.prototype = {
         this.state.start('MainMenu');
     },
 
-up: function () {
-    console.log('button up', arguments);
-},
+    up: function () {
+        console.log('button up', arguments);
+    },
 
-over: function () {
-    console.log('button over');
-},
+    over: function () {
+        console.log('button over');
+    },
 
-out: function() {
-    console.log('button out');
-}
+    out: function () {
+        console.log('button out');
+    }
 
 };
